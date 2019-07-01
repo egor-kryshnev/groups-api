@@ -1,4 +1,5 @@
 var bodyParser = require('body-parser');
+var groupValidator = require('./validations/SecurityValidator');
 var Groups = require('./models/groupsModel');
 var groupController = require('./controllers/groupController');
 
@@ -8,33 +9,19 @@ module.exports = function (app) {
     app.use(bodyParser.urlencoded({ extended: true }));
 
 
-    app.post("/createGroup", (req, res) => {
-        // console.log(req.body);
-        // var group = new Groups(req.body);
-        // group.save( err => {
-        //     if(err) throw err;
-        // });
-        // res.sendStatus(200);
-        groupController.CreateGroup(req, res);
-    });
-    
-    app.get("/allGroups", (req, res) => {
-        // Groups.find({}, (err, groups) => {
-        //     if (err) throw err;
-        //     res.send(groups);
-        // });
-        groupController.GetAll(req, res);
-    });
+    app.post("/api/createGroup", (req, res) => {groupController.CreateGroup(req, res);});
 
-    app.get("/allGroups/getGroupsByPerson/:namePerson", (req, res) => {
+    app.get("/api/getAllGroups", (req, res) => { groupController.GetAll(req, res);});
+    
+    app.get("/api/allGroups/getGroupsByPerson/:namePerson", (req, res) => {
         groupController.GetGroupsByPerson(req, res);
     });
-    
-    app.get("/allGroups/getGroupsByPersonAdmin/:namePerson", (req, res) => {
+
+    app.get("/api/allGroups/getGroupsByPersonAdmin/:namePerson", (req, res) => {
         groupController.GetGroupsByPersonAdmin(req, res);
     });
 
-    app.get("/oneGroup", (req, res) => {
+    app.get("/api/oneGroup", groupValidator.validateDataURLByID, (req, res) => {
         console.log(req.query);
         if(req.query.id){
             groupController.GetOneById(req, res);
@@ -43,20 +30,15 @@ module.exports = function (app) {
         } else {
             res.sendStatus(400);
         }
+});
 
-    });
-
-
-  
-  
-    app.put("/updateGroup", (req, res) => {
+    app.put("/api/updateGroup", (req, res) => {
         groupController.Update(req, res);
     });
 
-    app.delete("/deleteGroup", (req, res) => {
+    app.delete("/api/deleteGroup", (req, res) => {
         groupController.Delete(req, res);
     });
 
     
-
 }

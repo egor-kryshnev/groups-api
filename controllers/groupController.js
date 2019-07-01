@@ -12,7 +12,6 @@ exports.CreateGroup = function(req,res){
     group.save( err => {
         if(err) throw err;
     });
-    // res.sendStatus(200);
     res.json({ message: 'Group created!' });
 }
 
@@ -24,7 +23,6 @@ exports.GetAll = function(req,res){
 }
 
 exports.GetOneById = function(req, res) {
-    // Groups.findOne({ _id: req.params.id}, (err, group) => {
     Groups.findOne({ _id: req.query.id}, (err, group) => {
         if (err) throw err;
         res.send(group)
@@ -32,7 +30,6 @@ exports.GetOneById = function(req, res) {
 }
 
 exports.GetOneByName = function(req, res) {
-    // Groups.findOne({ name: req.params.name}, (err, group) => {
     Groups.findOne({ name: req.query.name}, (err, group) => {
         if (err) throw err;
         res.send(group)
@@ -77,9 +74,7 @@ exports.Update = function (req,res){
 exports.Delete = function (req, res){    
     Groups.deleteOne({ _id: req.body._id }, function(err) {
         if (err) return res.send(err);
-        // console.log("Deleted");
         res.json({ message: 'Deleted!' });
-        // res.send("Deleted!");
     });
 }
 
