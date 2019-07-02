@@ -1,9 +1,6 @@
-const mongoose = require("mongoose");
 var Groups = require("../models/groupsModel");
 var exports = module.exports;
-var config = require("../configDB");
 
-mongoose.connect(config.getDbConnectionString());
 
 exports.CreateGroup = function(req, res) {
   console.log(req.body);

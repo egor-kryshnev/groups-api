@@ -1,11 +1,11 @@
 var express = require("express");
 var app = express();
-const helmet = require('helmet');
+const helmet = require('helmet')
 var http = require("http").Server(app);
 var mongoose = require("mongoose");
-// var Groups = require("./models/groupsModel");
 var config = require("./configDB");
 var router = require("./router");
+const hsts = require('hsts');
 
 var bodyParser = require("body-parser");
 
@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(helmet.xssFilter());
 app.use(helmet.frameguard());
+app.use(hsts({
+  maxAge: 15552000  // 180 days in seconds
+}));
+
 
 app.use(function(req, res, next) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -30,5 +34,5 @@ mongoose.connect(config.getDbConnectionString(), { useNewUrlParser: true });
 router(app);
 
 http.listen(port, function() {
-  console.log("listening on *: " + port);
+  console.log("Server listening on port: " + port);
 });

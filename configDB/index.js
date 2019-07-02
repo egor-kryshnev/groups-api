@@ -6,3 +6,4 @@ module.exports = {
     return "mongodb+srv://ronabet:asdgk456!@groups-erien.gcp.mongodb.net/test?retryWrites=true&w=majority";
   }
 };
+
