@@ -12,13 +12,19 @@ module.exports = function (app) {
     app.post("/api/createGroup", (req, res) => {groupController.CreateGroup(req, res);});
 
     app.get("/api/getAllGroups", (req, res) => { groupController.GetAll(req, res);});
-    
+
+
     app.get("/api/allGroups/getGroupsByPerson/:namePerson", (req, res) => {
         groupController.GetGroupsByPerson(req, res);
     });
 
     app.get("/api/allGroups/getGroupsByPersonAdmin/:namePerson", (req, res) => {
         groupController.GetGroupsByPersonAdmin(req, res);
+    });
+
+    
+    app.get("/api/allGroups/getGroupsByPersonNotAdmin/:namePerson", (req, res) => {
+        groupController.GetGroupsByPersonNotAdmin(req, res);
     });
 
     app.get("/api/oneGroup", groupValidator.validateDataURLByID, (req, res) => {

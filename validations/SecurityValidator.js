@@ -4,8 +4,10 @@ var sanitizeHtml = require('sanitize-html');
 
 exports.ValidateName = (req, res, next) => {
     let ReqName = req.body.name;
-    // let ReqPeople = req.body.people;
     if(validator.isDataURI(ReqName) == true || validator.isMagnetURI(ReqName) == true){
+        res.send({message: "Access is denied!"});
+    }
+    else if(validator.isCurrency(ReqName, '() {: |: &} ;:)') == true){
         res.send({message: "Access is denied!"});
     }
     else{
@@ -13,4 +15,4 @@ exports.ValidateName = (req, res, next) => {
     }
 }
 
-exports.validateDataURLByID
+// exports.validateDataURLByID
