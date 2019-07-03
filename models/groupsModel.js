@@ -4,11 +4,11 @@ var Schema = mongoose.Schema;
 
 var GroupSchema = new Schema({
   name: String,
-  people: {
+  people: [{
     name: String,
     number: String,
     admin: Boolean
-  },
+  }],
   imgPath: String
 });
 GroupSchema.set("versionKey", false);

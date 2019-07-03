@@ -3,14 +3,14 @@ var groupValidator = require("./validations/SecurityValidator");
 var InputValidator = require("./validations/InputValidator");
 var groupController = require("./controllers/groupController");
 
-
 module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.post(
     "/api/createGroup",
-    InputValidator.ValidateInputTypes, groupValidator.ValidateName,
+    InputValidator.validateBodyHTMLTags,
+    groupValidator.ValidateName,
     (req, res) => {
       groupController.CreateGroup(req, res);
     }
@@ -46,9 +46,14 @@ module.exports = function(app) {
     }
   });
 
-  app.put("/api/updateGroup", (req, res) => {
-    groupController.Update(req, res);
-  });
+  app.put(
+    "/api/updateGroup",
+    InputValidator.validateBodyHTMLTags,
+    groupValidator.ValidateName,
+    (req, res) => {
+      groupController.Update(req, res);
+    }
+  );
 
   app.delete("/api/deleteGroup", (req, res) => {
     groupController.Delete(req, res);
