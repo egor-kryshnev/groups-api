@@ -3,7 +3,7 @@ var exports = module.exports;
 
 
 exports.CreateGroup = function(req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   var group = new Groups(req.body);
   group.save(err => {
     if (err) throw err;

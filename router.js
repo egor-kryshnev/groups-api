@@ -10,6 +10,7 @@ module.exports = function(app) {
   app.post(
     "/api/createGroup",
     InputValidator.validateBodyHTMLTags,
+    InputValidator.ValidateInputTypes,
     groupValidator.ValidateName,
     (req, res) => {
       groupController.CreateGroup(req, res);
