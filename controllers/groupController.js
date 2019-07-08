@@ -19,14 +19,16 @@ exports.GetAll = function(req, res) {
 };
 
 exports.GetOneById = function(req, res) {
-  Groups.findOne({ _id: req.query.id }, (err, group) => {
+  // Groups.findOne({ _id: req.query.id }, (err, group) => {
+  Groups.findOne({ _id: req.params.id }, (err, group) => {
     if (err) throw err;
     res.send(group);
   });
 };
 
 exports.GetOneByName = function(req, res) {
-  Groups.findOne({ name: req.query.name }, (err, group) => {
+  // Groups.findOne({ name: req.query.name }, (err, group) => {
+  Groups.findOne({ name: req.params.name }, (err, group) => {
     if (err) throw err;
     res.send(group);
   });

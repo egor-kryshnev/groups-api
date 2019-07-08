@@ -36,15 +36,24 @@ module.exports = function(app) {
     }
   );
 
-  app.get("/api/oneGroup", groupValidator.ValidateName, (req, res) => {
-    console.log(req.query);
-    if (req.query.id) {
-      groupController.GetOneById(req, res);
-    } else if (req.query.name) {
-      groupController.GetOneByName(req, res);
-    } else {
-      res.sendStatus(400);
-    }
+  // app.get("/api/oneGroup", groupValidator.ValidateName, (req, res) => {
+  //   console.log(req.query);
+  //   if (req.query.id) {
+  //     groupController.GetOneById(req, res);
+  //   } else if (req.query.name) {
+  //     groupController.GetOneByName(req, res);
+  //   } else {
+  //     res.sendStatus(400);
+  //   }
+  // });
+
+  app.get("/api/getOneGroupById/:id", groupValidator.ValidateName, (req, res) => {
+    // console.log(res.params);    
+    groupController.GetOneById(req, res);
+  });
+
+  app.get("/api/getOneGroupByName/:name", groupValidator.ValidateName, (req, res) => {
+    groupController.GetOneByName(req, res);
   });
 
   app.put(
