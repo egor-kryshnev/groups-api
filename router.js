@@ -72,7 +72,7 @@ module.exports = function(app) {
   app.post(
     "/api/createUser",
     userValidator.ValidateInputTypes,
-    userValidator.validateBodyHTMLTags, // ! ToDo - validation to user
+    userValidator.validateBodyHTMLTags, 
     groupValidator.ValidateName,
     (req, res) => {
       userController.CreateUser(req, res);

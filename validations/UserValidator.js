@@ -25,7 +25,6 @@ exports.validateBodyHTMLTags = (req, res, next) => {
   var HTMLTags = "/<>[]^";
   var ArrHTMLtags = HTMLTags.split("");
   var errCode = 0;
-  
 
   for (let x = 0; x < ArrName.length; x++) {
     for (let y = 0; y < ArrHTMLtags.length; y++) {

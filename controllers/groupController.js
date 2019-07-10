@@ -1,5 +1,5 @@
 var Groups = require("../models/groupsModel");
-// var Users = require("../models/userModel");
+
 var exports = module.exports;
 
 exports.CreateGroup = function(req, res) {
@@ -81,6 +81,6 @@ exports.Update = function(req, res) {
 exports.Delete = function(req, res) {
   Groups.deleteOne({ _id: req.body._id }, function(err) {
     if (err) return res.send(err);
-    res.json({ message: "Deleted!" });
+    res.json({ message: "Group Deleted!" });
   });
 };
