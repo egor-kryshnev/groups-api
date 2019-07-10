@@ -1,9 +1,8 @@
 var Groups = require("../models/groupsModel");
+// var Users = require("../models/userModel");
 var exports = module.exports;
 
-
 exports.CreateGroup = function(req, res) {
-  // console.log(req.body);
   var group = new Groups(req.body);
   group.save(err => {
     if (err) throw err;
@@ -11,7 +10,7 @@ exports.CreateGroup = function(req, res) {
   res.json({ message: "Group created!" });
 };
 
-exports.GetAll = function(req, res) {
+exports.GetAllGroups = function(req, res) {
   Groups.find({}, (err, groups) => {
     if (err) throw err;
     res.send(groups);
@@ -19,7 +18,6 @@ exports.GetAll = function(req, res) {
 };
 
 exports.GetOneById = function(req, res) {
-  // Groups.findOne({ _id: req.query.id }, (err, group) => {
   Groups.findOne({ _id: req.params.id }, (err, group) => {
     if (err) throw err;
     res.send(group);
@@ -27,7 +25,6 @@ exports.GetOneById = function(req, res) {
 };
 
 exports.GetOneByName = function(req, res) {
-  // Groups.findOne({ name: req.query.name }, (err, group) => {
   Groups.findOne({ name: req.params.name }, (err, group) => {
     if (err) throw err;
     res.send(group);
@@ -68,18 +65,14 @@ exports.GetGroupsByPersonNotAdmin = (req, res) => {
 };
 
 exports.Update = function(req, res) {
-  console.log(req.body);
-
   Groups.findOne({ _id: req.body._id }, function(err, group) {
     if (err) return res.send(err);
-
     for (prop in req.body) {
       group[prop] = req.body[prop];
     }
 
     group.save(function(err) {
       if (err) return res.send(err);
-
       res.json({ message: "Group updated!" });
     });
   });

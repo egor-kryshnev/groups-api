@@ -1,3 +1,6 @@
+const Groups = require("../models/groupsModel");
+
+
 exports.ValidateInputTypes = (req, res, next) => {
   var name = req.body.name;
   var peopleArr = req.body.people;
@@ -63,3 +66,37 @@ exports.validateBodyHTMLTags = (req, res, next) => {
     next();
   }
 };
+
+
+exports.ValidateID = (req, res, next) => {
+  const ShapeID = req.params.id;
+  Groups.countDocuments({ _id: ShapeID }, function (err, countofDoc) {
+    if (err || countofDoc < 1) {
+      return res.status(404).send({message: 'The ID not found, try other ID :('});
+    }
+      next();
+      return true;
+    });
+}
+
+
+exports.ValidateIDByRegEx = (req, res, next) => {
+  var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+  const GroupID = req.params.id;
+  if(checkForHexRegExp.test(GroupID) == false){
+    return res.status(404).send({message: 'The ID is not valid :('});
+  }
+  next();
+  return true;
+}
+
+exports.ValidateName = (req, res, next) => {
+  var name = req.params.name;
+  Groups.countDocuments({ name: name }, (err, countofDoc) => {
+    if (err || countofDoc < 1) { 
+      return res.status(404).send({message: 'The name not found, try other name :('});
+    }
+    next();
+    return true;
+  });
+}

@@ -1,6 +1,5 @@
-const group = require("../models/groupsModel");
 var validator = require("validator");
-var sanitizeHtml = require("sanitize-html");
+// var sanitizeHtml = require("sanitize-html");
 
 exports.ValidateName = (req, res, next) => {
   let ReqName = req.body.name;

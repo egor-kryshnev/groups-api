@@ -2,11 +2,12 @@ var bodyParser = require("body-parser");
 var groupValidator = require("./validations/SecurityValidator");
 var InputValidator = require("./validations/InputValidator");
 var groupController = require("./controllers/groupController");
+var userController = require("./controllers/userController");
+var userValidator = require("./validations/UserValidator");
 
 module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-
   app.post(
     "/api/createGroup",
     InputValidator.validateBodyHTMLTags,
@@ -18,7 +19,7 @@ module.exports = function(app) {
   );
 
   app.get("/api/getAllGroups", (req, res) => {
-    groupController.GetAll(req, res);
+    groupController.GetAllGroups(req, res);
   });
 
   app.get("/api/allGroups/getGroupsByPerson/:namePerson", (req, res) => {
@@ -36,25 +37,22 @@ module.exports = function(app) {
     }
   );
 
-  // app.get("/api/oneGroup", groupValidator.ValidateName, (req, res) => {
-  //   console.log(req.query);
-  //   if (req.query.id) {
-  //     groupController.GetOneById(req, res);
-  //   } else if (req.query.name) {
-  //     groupController.GetOneByName(req, res);
-  //   } else {
-  //     res.sendStatus(400);
-  //   }
-  // });
+  app.get(
+    "/api/getOneGroupById/:id",
+    InputValidator.ValidateID,
+    InputValidator.ValidateIDByRegEx,
+    (req, res) => {
+      groupController.GetOneById(req, res);
+    }
+  );
 
-  app.get("/api/getOneGroupById/:id", groupValidator.ValidateName, (req, res) => {
-    // console.log(res.params);    
-    groupController.GetOneById(req, res);
-  });
-
-  app.get("/api/getOneGroupByName/:name", groupValidator.ValidateName, (req, res) => {
-    groupController.GetOneByName(req, res);
-  });
+  app.get(
+    "/api/getOneGroupByName/:name",
+    InputValidator.ValidateName,
+    (req, res) => {
+      groupController.GetOneByName(req, res);
+    }
+  );
 
   app.put(
     "/api/updateGroup",
@@ -67,5 +65,21 @@ module.exports = function(app) {
 
   app.delete("/api/deleteGroup", (req, res) => {
     groupController.Delete(req, res);
+  });
+
+  //* User Router *\\
+
+  app.post(
+    "/api/createUser",
+    userValidator.ValidateInputTypes,
+    userValidator.validateBodyHTMLTags, // ! ToDo - validation to user
+    groupValidator.ValidateName,
+    (req, res) => {
+      userController.CreateUser(req, res);
+    }
+  );
+
+  app.get("/api/getAllUsers/", (req, res) => {
+    groupController.GetAllUsers(req, res);
   });
 };
