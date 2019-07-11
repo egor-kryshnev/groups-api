@@ -10,7 +10,7 @@ exports.CreateUser = function(req, res) {
 };
 
 exports.GetAllUsers = function(req, res) {
-  users.find({}, (err, Users) => {
+  Users.find({}, (err, Users) => {
     if (err) throw err;
     res.send(Users);
   });

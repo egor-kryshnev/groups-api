@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
   name: String,
   number: String,
+  groupIncludes: [{ type: Schema.Types.ObjectId, ref: "Groups" }],
   avatarPath: String
 });
 

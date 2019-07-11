@@ -11,8 +11,9 @@ module.exports = function(app) {
   app.post(
     "/api/createGroup",
     InputValidator.validateBodyHTMLTags,
-    InputValidator.ValidateInputTypes,
+    // InputValidator.ValidateInputTypes,
     groupValidator.ValidateName,
+    // InputValidator.ValidateUsersIDinDB,
     (req, res) => {
       groupController.CreateGroup(req, res);
     }
@@ -72,7 +73,7 @@ module.exports = function(app) {
   app.post(
     "/api/createUser",
     userValidator.ValidateInputTypes,
-    userValidator.validateBodyHTMLTags, 
+    userValidator.validateBodyHTMLTags,
     groupValidator.ValidateName,
     (req, res) => {
       userController.CreateUser(req, res);
@@ -80,6 +81,6 @@ module.exports = function(app) {
   );
 
   app.get("/api/getAllUsers/", (req, res) => {
-    groupController.GetAllUsers(req, res);
+    userController.GetAllUsers(req, res);
   });
 };

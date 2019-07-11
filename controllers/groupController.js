@@ -1,5 +1,5 @@
 var Groups = require("../models/groupsModel");
-
+var Users = require("../models/userModel");
 var exports = module.exports;
 
 exports.CreateGroup = function(req, res) {

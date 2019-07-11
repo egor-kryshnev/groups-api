@@ -1,14 +1,9 @@
 var mongoose = require("mongoose");
-
 var Schema = mongoose.Schema;
 
 var GroupSchema = new Schema({
   name: String,
-  people: [{
-    name: String,
-    number: String,
-    admin: Boolean
-  }],
+  people: [{ type: Schema.Types.ObjectId, ref: "users" }, { admin: Boolean }],
   imgPath: String
 });
 GroupSchema.set("versionKey", false);
