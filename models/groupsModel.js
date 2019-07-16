@@ -8,5 +8,4 @@ var GroupSchema = new Schema({
 });
 GroupSchema.set("versionKey", false);
 var Groups = mongoose.model("Groups", GroupSchema);
-
 module.exports = Groups;

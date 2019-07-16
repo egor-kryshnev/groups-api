@@ -13,7 +13,7 @@ module.exports = function(app) {
     InputValidator.validateBodyHTMLTags,
     // InputValidator.ValidateInputTypes,
     groupValidator.ValidateName,
-    // InputValidator.ValidateUsersIDinDB,
+    InputValidator.ValidateUsersIDinDB,
     (req, res) => {
       groupController.CreateGroup(req, res);
     }

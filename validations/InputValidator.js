@@ -105,27 +105,13 @@ exports.ValidateName = (req, res, next) => {
 
 exports.ValidateUsersIDinDB = (req, res, next) => {
   var UsersIDArr = req.body.people;
-  var errCode = 0;
-  var temp = 0;
-
-  for (let x = 0; x < UsersIDArr.length; x++) {
-    Users.countDocuments({ _id: UsersIDArr[x] }, function(err, countofDoc) {
-      if (err) {
-        errCode = 1;
-      }
-      temp += 1;
-    });
-  }
-  if (err || temp < UsersIDArr.length) {
-    errCode = 1;
-    console.log(UsersIDArr[x]);
-  }
-  if (errCode == 1) {
-    return res
-      .status(404)
-      .send({ message: "The user ID not found, try other ID :(" });
-  } else {
-    next();
-    return true;
-  }
+  Users.countDocuments({ _id: UsersIDArr }, function(err, countofDoc) {
+    if (countofDoc != UsersIDArr.length) {
+      return res
+        .status(404)
+        .send({ message: "The ID not found, try other ID :(" });
+    } else {
+      next();
+    }
+  });
 };

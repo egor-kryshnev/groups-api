@@ -7,7 +7,7 @@ exports.CreateGroup = function(req, res) {
   group.save(err => {
     if (err) throw err;
   });
-  res.json({ message: "Group created!" });
+  res.json({ message: "Group Created!" });
 };
 
 exports.GetAllGroups = function(req, res) {
@@ -77,7 +77,6 @@ exports.Update = function(req, res) {
     });
   });
 };
-
 exports.Delete = function(req, res) {
   Groups.deleteOne({ _id: req.body._id }, function(err) {
     if (err) return res.send(err);
