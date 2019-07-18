@@ -4,6 +4,7 @@ var InputValidator = require("./validations/InputValidator");
 var groupController = require("./controllers/groupController");
 var userController = require("./controllers/userController");
 var userValidator = require("./validations/UserValidator");
+const emailSender  = require("./EmailSender");
 
 module.exports = function(app) {
   app.use(bodyParser.json());
@@ -11,7 +12,6 @@ module.exports = function(app) {
   app.post(
     "/api/createGroup",
     InputValidator.validateBodyHTMLTags,
-    // InputValidator.ValidateInputTypes,
     groupValidator.ValidateName,
     InputValidator.ValidateUsersIDinDB,
     (req, res) => {
@@ -66,6 +66,10 @@ module.exports = function(app) {
 
   app.delete("/api/deleteGroup", (req, res) => {
     groupController.Delete(req, res);
+  });
+
+  app.post("/api/sendEmail", (req, res)=>{
+    
   });
 
   //* User Router *\\
