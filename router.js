@@ -4,16 +4,17 @@ var InputValidator = require("./validations/InputValidator");
 var groupController = require("./controllers/groupController");
 var userController = require("./controllers/userController");
 var userValidator = require("./validations/UserValidator");
-const emailSender  = require("./EmailSender");
+// const passport = require('passport');
+// const emailSender  = require("./EmailSender");
 
 module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post(
     "/api/createGroup",
-    InputValidator.validateBodyHTMLTags,
-    groupValidator.ValidateName,
-    InputValidator.ValidateUsersIDinDB,
+    // InputValidator.validateBodyHTMLTags,
+    // groupValidator.ValidateName,
+    // InputValidator.ValidateUsersIDinDB,
     (req, res) => {
       groupController.CreateGroup(req, res);
     }
@@ -27,16 +28,13 @@ module.exports = function(app) {
     groupController.GetGroupsByPerson(req, res);
   });
 
-  app.get("/api/allGroups/getGroupsByPersonAdmin/:namePerson", (req, res) => {
+  app.get("/api/allGroups/getGroupsByPersonAdmin/:id", (req, res) => {
     groupController.GetGroupsByPersonAdmin(req, res);
   });
 
-  app.get(
-    "/api/allGroups/getGroupsByPersonNotAdmin/:namePerson",
-    (req, res) => {
-      groupController.GetGroupsByPersonNotAdmin(req, res);
-    }
-  );
+  app.get("/api/allGroups/getGroupsByPersonNotAdmin/:id", (req, res) => {
+    groupController.GetGroupsByPersonNotAdmin(req, res);
+  });
 
   app.get(
     "/api/getOneGroupById/:id",
@@ -49,7 +47,7 @@ module.exports = function(app) {
 
   app.get(
     "/api/getOneGroupByName/:name",
-    InputValidator.ValidateName,
+    // InputValidator.ValidateName,
     (req, res) => {
       groupController.GetOneByName(req, res);
     }
@@ -68,9 +66,7 @@ module.exports = function(app) {
     groupController.Delete(req, res);
   });
 
-  app.post("/api/sendEmail", (req, res)=>{
-    
-  });
+  app.post("/api/sendEmail", (req, res) => {});
 
   //* User Router *\\
 

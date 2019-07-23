@@ -4,6 +4,18 @@ var exports = module.exports;
 
 exports.CreateGroup = function(req, res) {
   var group = new Groups(req.body);
+  var people = new Users(req.body.people[0].user);
+  for (let i = 0; i < req.body.people.length; i++) {
+    Users.findOne({ _id: req.body.people[i].user }, (err, user) => {
+      if (user == null || user == undefined) {
+        var newUser = new Users(req.body.people[i].user);
+        console.log(newUser);
+        newUser.save(err => {
+          if (err) throw err;
+        });
+      }
+    });
+  }
   group.save(err => {
     if (err) throw err;
   });
@@ -18,43 +30,55 @@ exports.GetAllGroups = function(req, res) {
 };
 
 exports.GetOneById = function(req, res) {
-  Groups.findOne({ _id: req.params.id }, (err, group) => {
-    var resJson = {};
-    Users.find({ _id: { $in: group.people } }, (err, users) => {
-      Users.find({ _id: { $in: group.admins } }, (err, admins) => {
-        resJson = group;
-        resJson.people = users;
-        resJson.admins = admins;
-        console.log(resJson);
-        if (err) throw err;
-        res.send(resJson);
-      });
-      
+  Groups.findOne({ _id: req.params.id })
+    .populate("people.user")
+    .exec(function(err, group) {
+      if (err) return handleError(err);
+      res.send(group);
     });
-  });
 };
 
 exports.GetOneByName = function(req, res) {
-  Groups.findOne({ name: req.params.name }, (err, group) => {
-    if (err) throw err;
-    res.send(group);
-  });
+  Groups.findOne({ name: req.params.name })
+    .populate("people.user")
+    .exec(function(err, group) {
+      if (err) return throwError(err);
+      res.send(group);
+    });
 };
 
 exports.GetGroupsByPerson = (req, res) => {
-  Groups.find(
-    { people: { $elemMatch: { name: req.params.namePerson } } },
-    (err, groups) => {
-      if (err) throw err;
-      console.log(groups);
-      res.send(groups);
-    }
-  );
+  // Groups.find({})
+  //   .populate({
+  //     path: "people.user",
+  //     match: { name: { $in: req.params.namePerson } }
+  //   })
+  //   // .find({ people: { user: { $elemMatch: { name: req.params.namePerson } } } })
+
+  //   // .populate("people.user")
+  //   .exec(function(err, group) {
+  //     if (err) return handleError(err);
+  //     console.log(group);
+  //     res.send(group);
+  //   });
+
+  Users.findOne({ name: req.params.namePerson }, (err, person) => {
+    if (err) throw err;
+
+    Groups.find({ people: { $elemMatch: { user: person.id } } })
+      .populate("people.user")
+      .exec((err, groups) => {
+        if (err) throw err;
+        console.log(groups);
+        res.send(groups);
+      });
+  });
 };
 
+/** by person id */
 exports.GetGroupsByPersonAdmin = (req, res) => {
   Groups.find(
-    { admins: { $elemMatch: { name: req.params.namePerson} } },
+    { people: { $elemMatch: { user: req.params.id, admin: true } } }).populate("people.user").exec(
     (err, groups) => {
       if (err) throw err;
       console.log(groups);
@@ -65,7 +89,7 @@ exports.GetGroupsByPersonAdmin = (req, res) => {
 
 exports.GetGroupsByPersonNotAdmin = (req, res) => {
   Groups.find(
-    { people: { $elemMatch: { name: req.params.namePerson} } },
+    { people: { $elemMatch: { user: req.params.id, admin: false } } }).populate("people.user").exec(
     (err, groups) => {
       if (err) throw err;
       console.log(groups);
@@ -87,6 +111,7 @@ exports.Update = function(req, res) {
     });
   });
 };
+
 exports.Delete = function(req, res) {
   Groups.deleteOne({ _id: req.body._id }, function(err) {
     if (err) return res.send(err);
