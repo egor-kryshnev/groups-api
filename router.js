@@ -66,7 +66,9 @@ module.exports = function(app) {
     groupController.Delete(req, res);
   });
 
-  app.post("/api/sendEmail", (req, res) => {});
+  app.post("/api/sendEmail", (req, res) => {
+    groupController.SendMail(req, res); 
+  });
 
   //* User Router *\\
 

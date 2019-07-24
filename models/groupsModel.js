@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 
 var GroupSchema = new Schema({
   name: String,
-  // people: [{ type: Schema.Types.ObjectId, ref: "users" }],
   people: [
     {
       _id: false,
