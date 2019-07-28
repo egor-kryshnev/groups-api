@@ -55,8 +55,8 @@ module.exports = function(app) {
 
   app.put(
     "/api/updateGroup",
-    InputValidator.validateBodyHTMLTags,
-    groupValidator.ValidateName,
+    // InputValidator.validateBodyHTMLTags,
+    // groupValidator.ValidateName,
     (req, res) => {
       groupController.Update(req, res);
     }
@@ -67,7 +67,8 @@ module.exports = function(app) {
   });
 
   app.post("/api/sendEmail", (req, res) => {
-    groupController.SendMail(req, res); 
+    // InputValidator.ValidateMail;
+    groupController.SendMail(req, res);
   });
 
   //* User Router *\\

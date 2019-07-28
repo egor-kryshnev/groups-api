@@ -1,5 +1,6 @@
 const Groups = require("../models/groupsModel");
 const Users = require("../models/userModel");
+var validator = require("email-validator");
 
 exports.ValidateInputTypes = (req, res, next) => {
   var name = req.body.name;
@@ -116,7 +117,20 @@ exports.ValidateUsersIDinDB = (req, res, next) => {
   });
 };
 
-// exports.ValidateMail = function validateEmail(email) {
-//   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-// }
+exports.ValidateMail = (req, res, next) => {
+  var groupId = req.body.groupId;
+  Groups.findOne({ _id: groupId })
+    .populate("people.user")
+    .exec((err, group) => {
+      const resArr = [];
+      group.people.filter(people => {
+        resArr.push(people.user.email);
+      });
+      if (validator.validate(req.body.email) == false) {
+        res.status(404).send({ message: "The Email address is not valid :(" });
+      } else {
+        next();
+        return true;
+      }
+    });
+};

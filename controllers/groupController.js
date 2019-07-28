@@ -83,16 +83,18 @@ exports.GetGroupsByPersonNotAdmin = (req, res) => {
 };
 
 exports.Update = function(req, res) {
-  Groups.findOne({ _id: req.body._id }, function(err, group) {
+  var group = new Groups(req.body);
+  Groups.updateOne({ _id: req.body._id }, group, function(err, group) {
     if (err) return res.send(err);
-    for (prop in req.body) {
-      group[prop] = req.body[prop];
+    console.log(group);
+    for (let i = 0; i < req.body.people.length; i++) {
+      var user = new Users(req.body.people[i].user);
+      Users.updateOne({ _id: user._id }, user, (err, user) => {
+        if (err) throw res.send(err);
+        console.log(user);
+      });
     }
-
-    group.save(function(err) {
-      if (err) return res.send(err);
-      res.json({ message: "Group updated!" });
-    });
+    res.send({ message: "Group Updated!" });
   });
 };
 
@@ -104,7 +106,7 @@ exports.Delete = function(req, res) {
 };
 
 exports.SendMail = function(req, res) {
-  var groupId = req.body.groupID;
+  var groupId = req.body.groupId;
   Groups.findOne({ _id: groupId })
     .populate("people.user")
     .exec((err, group) => {
@@ -126,11 +128,8 @@ exports.SendMail = function(req, res) {
         }
       });
       transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          res.send({ message: "Email Sent! :)" });
-        }
+        console.log(info);
+        res.send({ message: "Email Sent! :)" });
       });
     });
 };
