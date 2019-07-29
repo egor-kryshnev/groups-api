@@ -4,60 +4,65 @@ var validator = require("email-validator");
 
 exports.ValidateInputTypes = (req, res, next) => {
   var name = req.body.name;
-  var peopleArr = req.body.people;
+  var imgPath = req.body.imgPath;
+  var description = req.body.description;
   var errCode = 0;
-  for (let i = 0; i < peopleArr.length; i++) {
-    let isAdmin = req.body.people[i].admin;
-    let number = req.body.people[i].number;
-    let Peoplename = req.body.people[i].name;
-    if (
-      typeof name != "string" ||
-      typeof isAdmin != "boolean" ||
-      typeof number != "string" ||
-      typeof Peoplename != "string"
-    ) {
-      errCode = 1;
-    }
-    if (errCode) {
-      res.status(400).send({
-        error:
-          "The properties are not by the types, name & number = string, admin = boolean"
-      });
-    } else {
-      next();
-    }
+  var peopleArr = req.body.people;
+  // for (let i = 0; i < peopleArr.length; i++) {
+  //   if (typeof peopleArr[i].user.name != "string")
+  //     // typeof peopleArr[i].user.number != "string" ||
+  //     // typeof peopleArr[i].user.avatarPath != "string" ||
+  //     // typeof peopleArr[i].user.email != "string")
+  // //   let Peoplename = req.body.people[i].name;
+  // }
+  if (
+    typeof name != "string" ||
+    typeof description != "string" ||
+    typeof imgPath != "string"
+  ) {
+    errCode = 1;
+  }
+  if (errCode) {
+    res.status(400).send({
+      error:
+        "The properties are not by the types, name & number = string, admin = boolean"
+    });
+  } else {
+    next();
   }
   return true;
 };
 
 exports.validateBodyHTMLTags = (req, res, next) => {
   var name = req.body.name;
+  var imgPath = req.body.imgPath;
+  var description = req.body.description;
   var HTMLTags = "/<>[]^";
   var ArrHTMLtags = HTMLTags.split("");
-  var UsersIDArr = req.body.people;
   var ArrName = name.split("");
+  var ArrImg = imgPath.split("");
+  var ArrDes = description.split("");
   var errCode = 0;
 
-  for (let x = 0; x < UsersIDArr.length; x++) {
+  for (let x = 0; x < ArrName.length; x++) {
     for (let y = 0; y < ArrHTMLtags.length; y++) {
-      if (
-        UsersIDArr[x].includes(ArrHTMLtags[y]) ||
-        UsersIDArr[x].includes(ArrHTMLtags[y])
-      ) {
+      if (ArrName[x].includes(ArrHTMLtags[y])) {
         errCode = 1;
       }
     }
   }
-  for (x in ArrName) {
-    if (
-      ArrName[x] == "/" ||
-      ArrName[x] == "<" ||
-      ArrName[x] == ">" ||
-      ArrName[x] == "[" ||
-      ArrName[x] == "]" ||
-      ArrName[x] == "^"
-    ) {
-      errCode = 1;
+  for (let x = 0; x < ArrImg.length; x++) {
+    for (let y = 0; y < ArrHTMLtags.length; y++) {
+      if (ArrImg[x].includes(ArrHTMLtags[y])) {
+        errCode = 1;
+      }
+    }
+  }
+  for (let x = 0; x < ArrDes.length; x++) {
+    for (let y = 0; y < ArrHTMLtags.length; y++) {
+      if (ArrDes[x].includes(ArrHTMLtags[y])) {
+        errCode = 1;
+      }
     }
   }
   if (errCode) {
@@ -122,15 +127,28 @@ exports.ValidateMail = (req, res, next) => {
   Groups.findOne({ _id: groupId })
     .populate("people.user")
     .exec((err, group) => {
+      var errCode = 0;
       const resArr = [];
       group.people.filter(people => {
         resArr.push(people.user.email);
       });
-      if (validator.validate(req.body.email) == false) {
-        res.status(404).send({ message: "The Email address is not valid :(" });
-      } else {
-        next();
-        return true;
+      for (let i = 0; i < resArr.length; i++) {
+        if (!validator.validate(resArr[i])) {
+          errCode = 1;
+          // res.status(404).send({ message: "The Email address is not valid :(" });
+        }
       }
+      if (errCode) {
+        res.send({ message: "The Email address is not valid :(" });
+      }
+      // } else {
+      //   next();
+      // }
+      // if (!validator.validate(req.body.email)) {
+      //   res.status(404).send({ message: "The Email address is not valid :(" });
+      //  else {
+      // next();
+      // return true;
+      // }
     });
 };

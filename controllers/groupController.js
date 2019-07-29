@@ -1,6 +1,7 @@
 var Groups = require("../models/groupsModel");
 var Users = require("../models/userModel");
 var nodemailer = require("nodemailer");
+var validator = require("email-validator");
 var exports = module.exports;
 
 exports.CreateGroup = function(req, res) {
@@ -112,7 +113,9 @@ exports.SendMail = function(req, res) {
     .exec((err, group) => {
       const resArr = [];
       group.people.filter(people => {
-        resArr.push(people.user.email);
+        if (validator.validate(people.user.email)) {
+          resArr.push(people.user.email);
+        }
       });
       var mailOptions = {
         from: "groupshive@gmail.com", //! Sent from the T of the user

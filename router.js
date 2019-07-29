@@ -4,15 +4,15 @@ var InputValidator = require("./validations/InputValidator");
 var groupController = require("./controllers/groupController");
 var userController = require("./controllers/userController");
 var userValidator = require("./validations/UserValidator");
-// const passport = require('passport');
-// const emailSender  = require("./EmailSender");
+
 
 module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post(
     "/api/createGroup",
-    // InputValidator.validateBodyHTMLTags,
+    InputValidator.ValidateInputTypes,
+    InputValidator.validateBodyHTMLTags,
     // groupValidator.ValidateName,
     // InputValidator.ValidateUsersIDinDB,
     (req, res) => {
@@ -67,7 +67,7 @@ module.exports = function(app) {
   });
 
   app.post("/api/sendEmail", (req, res) => {
-    // InputValidator.ValidateMail;
+    // InputValidator.ValidateMail(req, res);
     groupController.SendMail(req, res);
   });
 
