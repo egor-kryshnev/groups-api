@@ -25,9 +25,16 @@ exports.CheckUser = function(req, res) {
         if (err) throw err;
       });
       res.json({ message: "User created!" });
+    } else {
+      res.send(user);
     }
-    else{
-    res.send(user);
-    }
+  });
+};
+
+exports.UpdateUser = function(req, res) {
+  var user = new Groups(req.body);
+  Users.updateOne({ _id: req.body._id }, user, function(err, User) {
+    if (err) return res.send(err);
+    res.send({ message: "User Updated!" });
   });
 };
