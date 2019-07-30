@@ -15,3 +15,19 @@ exports.GetAllUsers = function(req, res) {
     res.send(Users);
   });
 };
+
+exports.CheckUser = function(req, res) {
+  Users.find({ _id: req.body._id }, (err, user) => {
+    if (err) throw err;
+    if (user.length == 0) {
+      var user = new Users(req.body);
+      user.save(err => {
+        if (err) throw err;
+      });
+      res.json({ message: "User created!" });
+    }
+    else{
+    res.send(user);
+    }
+  });
+};

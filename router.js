@@ -86,4 +86,8 @@ module.exports = function(app) {
   app.get("/api/getAllUsers/", (req, res) => {
     userController.GetAllUsers(req, res);
   });
+
+  app.post('/api/checkUser', (req, res) => {
+    userController.CheckUser(req, res);
+  })
 };
