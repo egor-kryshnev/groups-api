@@ -12,7 +12,8 @@ module.exports = function(app) {
   app.post(
     "/api/createGroup",
     InputValidator.ValidateInputTypes,
-    InputValidator.validateBodyHTMLTags,
+    // InputValidator.validateBodyHTMLTags,
+    
     // groupValidator.ValidateName,
     // InputValidator.ValidateUsersIDinDB,
     (req, res) => {
@@ -90,4 +91,8 @@ module.exports = function(app) {
   app.post('/api/checkUser', (req, res) => {
     userController.CheckUser(req, res);
   })
+
+  app.put('/api/updateUser', (req, res) => {
+    userController.UpdateUser(req, res);
+  });
 };

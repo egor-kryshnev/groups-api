@@ -17,7 +17,9 @@ exports.GetAllUsers = function(req, res) {
 };
 
 exports.CheckUser = function(req, res) {
-  Users.find({ _id: req.body._id }, (err, user) => {
+  // console.log("1");
+  // console.log(req.body._id);
+  Users.findOne({ _id: req.body._id }, (err, user) => {
     if (err) throw err;
     if (user.length == 0) {
       var user = new Users(req.body);
@@ -32,7 +34,7 @@ exports.CheckUser = function(req, res) {
 };
 
 exports.UpdateUser = function(req, res) {
-  var user = new Groups(req.body);
+  var user = new Users(req.body);
   Users.updateOne({ _id: req.body._id }, user, function(err, User) {
     if (err) return res.send(err);
     res.send({ message: "User Updated!" });
