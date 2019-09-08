@@ -78,7 +78,7 @@ exports.GetGroupsByPersonNotAdmin = (req, res) => {
     .populate("people.user")
     .exec((err, groups) => {
       if (err) throw err;
-      console.log(groups);
+      // console.log(groups);
       res.send(groups);
     });
 };

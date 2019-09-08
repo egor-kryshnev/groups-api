@@ -20,6 +20,7 @@ module.exports = function(app) {
       groupController.CreateGroup(req, res);
     }
   );
+  
 
   app.get("/api/getAllGroups", (req, res) => {
     groupController.GetAllGroups(req, res);
@@ -32,6 +33,7 @@ module.exports = function(app) {
   app.get("/api/allGroups/getGroupsByPersonAdmin/:id", (req, res) => {
     groupController.GetGroupsByPersonAdmin(req, res);
   });
+  
 
   app.get("/api/allGroups/getGroupsByPersonNotAdmin/:id", (req, res) => {
     groupController.GetGroupsByPersonNotAdmin(req, res);
@@ -62,7 +64,6 @@ module.exports = function(app) {
       groupController.Update(req, res);
     }
   );
-
   app.delete("/api/deleteGroup", (req, res) => {
     groupController.Delete(req, res);
   });
@@ -76,13 +77,17 @@ module.exports = function(app) {
 
   app.post(
     "/api/createUser",
-    userValidator.ValidateInputTypes,
-    userValidator.validateBodyHTMLTags,
-    groupValidator.ValidateName,
+    // userValidator.ValidateInputTypes,
+    // userValidator.validateBodyHTMLTags,
+    // groupValidator.ValidateName,
     (req, res) => {
-      userController.CreateUser(req, res);
+      userController.CreateUsersloop(req, res);
     }
   );
+
+  app.get("/api/getuserByName/:name", (req, res) => {
+  userController.getUserByName(req,res)
+  });
 
   app.get("/api/getAllUsers/", (req, res) => {
     userController.GetAllUsers(req, res);
