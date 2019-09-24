@@ -49,6 +49,13 @@ exports.GetOneByName = function(req, res) {
     });
 };
 
+exports.GetAllBySymbols = function(req, res) { console.log("error");
+  Groups.find({ "name": { "$regex": `${req.params.name}`, "$options": "i" }}, (err, groups) => {
+    if (err) throw err;
+    res.send(groups);
+  });
+} 
+
 exports.GetGroupsByPerson = (req, res) => {
   Users.findOne({ name: req.params.namePerson }, (err, person) => {
     if (err) throw err;
@@ -136,3 +143,12 @@ exports.SendMail = function(req, res) {
       });
     });
 };
+
+exports.GetAllMembers = function(req, res) {
+  Groups.findOne({ _id: req.params.id })
+  .populate("people.user")
+  .exec(function(err, group) {
+    if (err) return handleError(err);
+    res.send(group.people);
+  });
+}

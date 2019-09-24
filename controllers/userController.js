@@ -17,12 +17,10 @@ exports.GetAllUsers = function(req, res) {
 };
 
 exports.CheckUser = function(req, res) {
-  // console.log("123");
-  // console.log(req.body);
   Users.findOne({ _id: req.body._id }, (err, user) => {
     console.log(user);
     if (err) throw err;
-    if (user.length == 0) {
+    if (user === null || user.length == 0) {
       var userRes = new Users(req.body);
       userRes.save(err => {
         if (err) throw err;

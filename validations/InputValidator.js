@@ -8,13 +8,6 @@ exports.ValidateInputTypes = (req, res, next) => {
   var description = req.body.description;
   var errCode = 0;
   var peopleArr = req.body.people;
-  // for (let i = 0; i < peopleArr.length; i++) {
-  //   if (typeof peopleArr[i].user.name != "string")
-  //     // typeof peopleArr[i].user.number != "string" ||
-  //     // typeof peopleArr[i].user.avatarPath != "string" ||
-  //     // typeof peopleArr[i].user.email != "string")
-  // //   let Peoplename = req.body.people[i].name;
-  // }
   if (
     typeof name != "string" ||
     typeof description != "string" ||

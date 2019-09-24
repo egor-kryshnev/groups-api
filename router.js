@@ -13,7 +13,6 @@ module.exports = function(app) {
     "/api/createGroup",
     InputValidator.ValidateInputTypes,
     // InputValidator.validateBodyHTMLTags,
-    
     // groupValidator.ValidateName,
     // InputValidator.ValidateUsersIDinDB,
     (req, res) => {
@@ -56,6 +55,14 @@ module.exports = function(app) {
     }
   );
 
+  app.get('/api/getAllGroupBySymbols/:name', (req, res) => {
+    groupController.GetAllBySymbols(req, res);
+  });
+
+  app.get('/api/getAllGroupMembersByID/:id', (req, res) => {
+    groupController.GetAllMembers(req, res);
+  });
+
   app.put(
     "/api/updateGroup",
     // InputValidator.validateBodyHTMLTags,
@@ -64,6 +71,7 @@ module.exports = function(app) {
       groupController.Update(req, res);
     }
   );
+  
   app.delete("/api/deleteGroup", (req, res) => {
     groupController.Delete(req, res);
   });
