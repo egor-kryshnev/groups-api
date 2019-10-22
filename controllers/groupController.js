@@ -50,10 +50,14 @@ exports.GetOneByName = function(req, res) {
 };
 
 exports.GetAllBySymbols = function(req, res) { console.log("error");
-  Groups.find({ "name": { "$regex": `${req.params.name}`, "$options": "i" }}, (err, groups) => {
-    if (err) throw err;
-    res.send(groups);
-  });
+  if(req.params.name.length > 2){
+    Groups.find({ "name": { "$regex": `${req.params.name}`, "$options": "i" }}, (err, groups) => {
+      if (err) throw err;
+      res.status(200).send(groups);
+    });
+  } else {
+      res.status(300);
+  }
 } 
 
 exports.GetGroupsByPerson = (req, res) => {
