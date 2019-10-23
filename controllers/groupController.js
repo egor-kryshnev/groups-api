@@ -21,13 +21,13 @@ exports.CreateGroup = function(req, res) {
   group.save(err => {
     if (err) throw err;
   });
-  res.json({ message: "Group Created!" });
+  res.status(200).json({ message: "Group Created!" });
 };
 
 exports.GetAllGroups = function(req, res) {
   Groups.find({}, (err, groups) => {
     if (err) throw err;
-    res.send(groups);
+    res.status(200).send(groups);
   });
 };
 
@@ -36,7 +36,7 @@ exports.GetOneById = function(req, res) {
     .populate("people.user")
     .exec(function(err, group) {
       if (err) return handleError(err);
-      res.send(group);
+      res.status(200).send(group);
     });
 };
 
@@ -45,7 +45,7 @@ exports.GetOneByName = function(req, res) {
     .populate("people.user")
     .exec(function(err, group) {
       if (err) return throwError(err);
-      res.send(group);
+      res.status(200).send(group);
     });
 };
 
@@ -68,7 +68,7 @@ exports.GetGroupsByPerson = (req, res) => {
       .exec((err, groups) => {
         if (err) throw err;
         console.log(groups);
-        res.send(groups);
+        res.status(200).send(groups);
       });
   });
 };
@@ -80,7 +80,7 @@ exports.GetGroupsByPersonAdmin = (req, res) => {
     .exec((err, groups) => {
       if (err) throw err;
       console.log(groups);
-      res.send(groups);
+      res.status(200).send(groups);
     });
 };
 
@@ -90,7 +90,7 @@ exports.GetGroupsByPersonNotAdmin = (req, res) => {
     .exec((err, groups) => {
       if (err) throw err;
       // console.log(groups);
-      res.send(groups);
+      res.status(200).send(groups);
     });
 };
 
@@ -106,14 +106,14 @@ exports.Update = function(req, res) {
         console.log(user);
       });
     }
-    res.send({ message: "Group Updated!" });
+    res.status(200).send({ message: "Group Updated!" });
   });
 };
 
 exports.Delete = function(req, res) {
   Groups.deleteOne({ _id: req.body._id }, function(err) {
     if (err) return res.send(err);
-    res.json({ message: "Group Deleted!" });
+    res.status(200).json({ message: "Group Deleted!" });
   });
 };
 
@@ -143,7 +143,7 @@ exports.SendMail = function(req, res) {
       });
       transporter.sendMail(mailOptions, function(error, info) {
         console.log(info);
-        res.send({ message: "Email Sent! :)" });
+        res.status(200).send({ message: "Email Sent! :)" });
       });
     });
 };
@@ -153,6 +153,6 @@ exports.GetAllMembers = function(req, res) {
   .populate("people.user")
   .exec(function(err, group) {
     if (err) return handleError(err);
-    res.send(group.people);
+    res.status(200).send(group.people);
   });
 }

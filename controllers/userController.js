@@ -6,13 +6,13 @@ exports.CreateUser = function(req, res) {
   user.save(err => {
     if (err) throw err;
   });
-  res.json({ message: "User created!" });
+  res.status(200).json({ message: "User created!" });
 };
 
 exports.GetAllUsers = function(req, res) {
   Users.find({}, (err, Users) => {
     if (err) throw err;
-    res.send(Users);
+    res.status(200).send(Users);
   });
 };
 
@@ -25,9 +25,9 @@ exports.CheckUser = function(req, res) {
       userRes.save(err => {
         if (err) throw err;
       });
-      res.json({ message: "User created!" });
+      res.status(200).json({ message: "User created!" });
     } else {
-      res.send(user);
+      res.status(200).send(user);
     }
   });
 };
@@ -36,7 +36,7 @@ exports.UpdateUser = function(req, res) {
   var user = new Users(req.body);
   Users.updateOne({ _id: req.body._id }, user, function(err, User) {
     if (err) return res.send(err);
-    res.send({ message: "User Updated!" });
+    res.status(200).send({ message: "User Updated!" });
   });
 };
 
@@ -53,7 +53,7 @@ function makeid(length) {
 console.log(makeid(5));
 
 exports.CreateUsersloop = function(req, res) {
-  for(let i = 0; i < 19000; i++){
+  for(let i = 0; i < 50000; i++){
         
     var newUser1 = {
         fullName: makeid(5),
@@ -80,14 +80,14 @@ exports.CreateUsersloop = function(req, res) {
         console.log("Saved to DB");
     });
 }
-  res.json({ message: "User created!" });
+  res.status(200).json({ message: "User created!" });
 };
 
 exports.getUserByName = function(req, res) {
   Users.find({ "fullName": { "$regex": `${req.params.name}`, "$options": "i" } },
     function(err,docs) { 
       console.log(docs);
-      res.send(docs);
+      res.status(200).send(docs);
     } 
     );
 }
