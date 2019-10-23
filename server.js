@@ -41,4 +41,4 @@ class Server {
 }
 
 module.exports.Server = Server;
-const server = new Server();
+// const server = new Server();

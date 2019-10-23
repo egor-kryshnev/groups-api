@@ -13,7 +13,7 @@ describe("router", function() {
       it("should return group details", function(done) {
         this.timeout(10000);
         request(server.app)
-          .get("/api/getOneGroupById/5d1d9f33a2c10d05e01f562f")
+          .get("/api/getOneGroupById/5d46a9c76533f31bb00a961c")
           .expect(200)
           .end((err, res) => {
             if (err) {
@@ -21,16 +21,6 @@ describe("router", function() {
             }
             done();
           });
-      });
-    });
-  });
-  describe("#GET /api/getOneGroupByName/:name", function() {
-    context("when ID is valid", function() {
-      it("should return group details", function(done) {
-        this.timeout(10000);
-        request(server.app).get(
-          "/api/getOneGroupByName/5d1d9f33a2c10d05e01f562f"
-        );
       });
     });
   });
