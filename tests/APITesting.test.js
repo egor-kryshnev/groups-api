@@ -1,4 +1,4 @@
-// const { expect } = require("chai");
+const { expect } = require("chai");
 const { Server } = require("../server");
 const request = require("supertest");
 
@@ -136,26 +136,21 @@ describe("router", function() {
       });
     });
   });
-  // describe("#GET /api/getAllUsers/", function() {
-  //   context("when all users returned ", function() {
-  //     it("should return all users", function(done) {
-  //       this.timeout(10000);
-  //       request(server.app)
-  //         .get("/api/getAllUsers/")
-  //         .expect(200)
-  //         .end((err, res) => {
-  //           if (err) {
-  //             done(err);
-  //           }
-  //           done();
-  //         });
-  //     });
-  //   });
-  // });
-
-  
-
-  
+  context('when request is Valid', function () {
+    it('Should return group created', function (done) {
+    const ValidReq = { "name": "test", "people": [], "imgPath" : "assets/img/default2.png", "description" : "test"};
+    request(server.app)
+        .post('/api/createGroup')
+        .send(ValidReq)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+              return done(err);
+          }
+        return done();
+          });
+        });
+      });
 
 
 });

@@ -6,7 +6,6 @@ var exports = module.exports;
 
 exports.CreateGroup = function(req, res) {
   var group = new Groups(req.body);
-  // var people = new Users(req.body.people[0].user);
   for (let i = 0; i < req.body.people.length; i++) {
     Users.findOne({ _id: req.body.people[i].user }, (err, user) => {
       if (user == null || user == undefined) {
