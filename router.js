@@ -89,7 +89,8 @@ module.exports = function(app) {
     // userValidator.validateBodyHTMLTags,
     // groupValidator.ValidateName,
     (req, res) => {
-      userController.CreateUsersloop(req, res);
+      // userController.CreateUsersloop(req, res);
+      userController.CreateUser(req, res);
     }
   );
 

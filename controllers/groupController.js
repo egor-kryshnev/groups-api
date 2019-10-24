@@ -60,7 +60,7 @@ exports.GetAllBySymbols = function(req, res) { console.log("error");
 } 
 
 exports.GetGroupsByPerson = (req, res) => {
-  Users.findOne({ name: req.params.namePerson }, (err, person) => {
+  Users.findOne({ fullName: req.params.namePerson }, (err, person) => {
     if (err) throw err;
     Groups.find({ people: { $elemMatch: { user: person.id } } })
       .populate("people.user")
@@ -117,14 +117,17 @@ exports.Delete = function(req, res) {
 };
 
 exports.SendMail = function(req, res) {
+  // console.log(req.body);
   var groupId = req.body.groupId;
   Groups.findOne({ _id: groupId })
     .populate("people.user")
     .exec((err, group) => {
       const resArr = [];
+      // console.log(group.people);
+      
       group.people.filter(people => {
-        if (validator.validate(people.user.email)) {
-          resArr.push(people.user.email);
+        if (validator.validate(people.user.mail)) {
+          resArr.push(people.user.mail);
         }
       });
       var mailOptions = {
@@ -133,6 +136,8 @@ exports.SendMail = function(req, res) {
         subject: req.body.subject,
         text: req.body.text
       };
+      console.log(mailOptions);
+      
       var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
