@@ -5,6 +5,7 @@ var http = require("http").Server(app);
 var mongoose = require("mongoose");
 var config = require("./configDB");
 var router = require("./router");
+var spike = require("./spike");
 const hsts = require("hsts");
 var bodyParser = require("body-parser");
 var port = process.env.PORT || 5000;
@@ -35,10 +36,11 @@ class Server {
       res.header("access-Control-Allow-Origin", "*");
       next();
     });
+    spike();
     router(this.app);
     mongoose.connect(config.getDbConnectionString(), { useNewUrlParser: true });
   }
 }
 
 module.exports.Server = Server;
-// const server = new Server();
+const server = new Server();
