@@ -223,9 +223,9 @@ describe("router", function() {
         personalNumber: "8495179",
         hierarchy: ["s/s//ss/s/"],
         primaryDomainUser: 
-        {
-        adfsUID: "000001",
-        uniqueID: "000001"
+        { 
+        adfsUID:  "000001",
+        uniqueID: "000001" 
         },
         secondaryDomainUsers: 
         [
