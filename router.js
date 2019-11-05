@@ -11,7 +11,7 @@ module.exports = function(app) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post(
     "/api/createGroup",
-    InputValidator.ValidateInputTypes,
+    // InputValidator.ValidateInputTypes,
     // InputValidator.validateBodyHTMLTags,
     // groupValidator.ValidateName,
     // InputValidator.ValidateUsersIDinDB,

@@ -5,6 +5,8 @@ var validator = require("email-validator");
 var exports = module.exports;
 
 exports.CreateGroup = function(req, res) {
+  console.log("cretegroup", req.body);
+  
   var group = new Groups(req.body);
   for (let i = 0; i < req.body.people.length; i++) {
     Users.findOne({ _id: req.body.people[i].user }, (err, user) => {

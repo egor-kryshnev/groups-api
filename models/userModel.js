@@ -2,18 +2,19 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  // _id: Schema.Types.ObjectId,
+  _id: Schema.Types.ObjectId,
   fullName: String,
   personalNumber: String,
   hierarchy: [String],
-  primaryDomainUser: 
-  {
-    adfsUID: String,
-    uniqueID: String
-  },
+  // primaryDomainUser: 
+  // {
+  //   adfsUID: String,
+  //   uniqueID: String
+  // },
   secondaryDomainUsers: 
   [
     {
+    _id: false,
     adfsUID: String,
     uniqueID: String
     }

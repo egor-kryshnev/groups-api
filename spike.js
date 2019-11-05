@@ -19,7 +19,6 @@ module.exports = function() {
             const publicKeyUrl = 'https://51.144.178.121:1337/.well-known/publickey.pem';
             const certificateUrl = 'https://51.144.178.121:1337/.well-known/certificate.pem';
 
-
             const res = await axios.post(
                 'https://51.144.178.121:1337/oauth2/token',
                 { "grant_type": 'client_credentials', "audience": 'kartoffel' },

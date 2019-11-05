@@ -1,5 +1,7 @@
 var Users = require("../models/userModel");
+const axios = require('axios');
 var exports = module.exports;
+
 
 exports.CreateUser = function(req, res) {
   var user = new Users(req.body);
@@ -83,13 +85,130 @@ exports.CreateUsersloop = function(req, res) {
   res.status(200).json({ message: "User created!" });
 };
 
+// exports.getUserByName = function(req, res) {
+//   Users.find({ "fullName": { "$regex": `${req.params.name}`, "$options": "i" } },
+//     function(err,docs) { 
+//       console.log(docs);
+//       res.status(200).send(docs);
+//     } 
+//     );
+// }
+
 exports.getUserByName = function(req, res) {
-  Users.find({ "fullName": { "$regex": `${req.params.name}`, "$options": "i" } },
-    function(err,docs) { 
-      console.log(docs);
-      res.status(200).send(docs);
-    } 
-    );
+  console.log(req.params.name); 
+
+  const resAx = axios.get(
+    'http://kartoffel-master.eastus.cloudapp.azure.com:3000/api/persons/search' , {
+     params: {
+        fullname: req.params.name
+      }
+    }
+  ).then((data) => {
+    console.log(data.data);
+    var result = [];
+    for(var i = 0; i < data.data.length; i++){
+      if(i == 0) {
+        result = [{
+          _id: data.data[i].id,
+          fullName: data.data[i].fullName,
+          personalNumber: data.data[i].personalNumber,
+          hierarchy: data.data[i].hierarchy,
+          secondaryDomainUsers: data.data[i].domainUsers,
+          mail: data.data[i].mail
+        }]
+      } else {
+        result.push({
+          _id: data.data[i].id,
+          fullName: data.data[i].fullName,
+          personalNumber: data.data[i].personalNumber,
+          hierarchy: data.data[i].hierarchy,
+          secondaryDomainUsers: data.data[i].domainUsers,
+          mail: data.data[i].mail
+        })
+      }
+    }
+    console.log(result);  
+    res.status(200).send(result);
+  });
+       
+  // console.log(resAx.data);
+ 
+  // var users = getUser(req.params.name);
+  // var users = getUserFromUsersService(req.params.name);
+  
+  // console.log("users", users);
+  
+  // var result = [];
+  // for(var i = 0; i < users.length; i++){
+  //   if(i == 0) {
+  //     result = [{
+  //       _id: users[i]._id,
+  //       fullName: users[i].fullName,
+  //       personalNumber: users[i].personalNumber,
+  //       hierarchy: users[i].hierarchy,
+  //       secondaryDomainUsers: users[i].domainUsers,
+  //       mail: users[i].mail
+  //     }]
+  //   }
+  //   result.push({
+  //     _id: users[i]._id,
+  //     fullName: users[i].fullName,
+  //     personalNumber: users[i].personalNumber,
+  //     hierarchy: users[i].hierarchy,
+  //     secondaryDomainUsers: users[i].domainUsers,
+  //     mail: users[i].mail
+  //   })
+  // }
+  // console.log(result);  
+  // res.status(200).send(result);
+
+  // Users.find({ "fullName": { "$regex": `${req.params.name}`, "$options": "i" } },
+  //   function(err,docs) { 
+  //     console.log(docs);
+  //     res.status(200).send(docs);
+  //   } 
+    // );
+} 
+
+// async function getUser(user) {
+//   try {
+//     const response = await axios.get('http://kartoffel-master.eastus.cloudapp.azure.com:3000/api/persons/search' , {
+//       params: {
+//         fullname: user
+//       }
+//     }
+//     );
+//     // console.log(response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
+function getUser(user) {
+  const resAx = axios.get(
+    'http://kartoffel-master.eastus.cloudapp.azure.com:3000/api/persons/search' , {
+     params: {
+        fullname: user
+      }
+    }
+  ).then((res) => {
+    console.log(res.data);
+    // return res.data;
+  });
+}
+
+const getUserFromUsersService = async (user) => {
+ try {
+  return await axios.get('http://kartoffel-master.eastus.cloudapp.azure.com:3000/api/persons/search' , {
+          params: {
+            fullname: user
+          }
+        }
+        );
+ } catch (error) {
+   console.log(error);   
+ }
 }
 
 

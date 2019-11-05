@@ -12,6 +12,7 @@ var port = process.env.PORT || 5000;
 
 class Server {
   constructor() {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     this.app = express();
     this.app.listen(port, function() {
       console.log("Server listening on port: " + port);
@@ -36,7 +37,7 @@ class Server {
       res.header("access-Control-Allow-Origin", "*");
       next();
     });
-    spike();
+    // spike();
     router(this.app);
     mongoose.connect(config.getDbConnectionString(), { useNewUrlParser: true });
   }
