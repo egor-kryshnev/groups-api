@@ -1,9 +1,6 @@
-var configValues = require("./config");
-
 module.exports = {
   getDbConnectionString: function() {
-    // mongodb://127.0.0.1:27017/test'
-    return "mongodb+srv://ronabet:asdgk456!@groups-erien.gcp.mongodb.net/test4?retryWrites=true&w=majority";
+    return "mongodb+srv://CoronaDB:Aa123456789@cluster0.bwek0.azure.mongodb.net/Declarations?retryWrites=true&w=majority";
   }
 };
 
